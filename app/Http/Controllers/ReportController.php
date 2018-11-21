@@ -32,9 +32,49 @@ class ReportController extends Controller
 
     /**
      * Report index route
+     * @param Request $request
+     * @return array
      */
-    public function index(): void
+    public function index(Request $request): array
     {
+        $queryType = $request->get('q');
+        $workerName = $request->query('id');
+        $type = $request->query('type');
+
+        if (!$worker = $this->getWorkerByDetails($workerName, $type)) {
+            $this->respondWithJson('unregistered', true);
+        }
+
+        if ($queryType === 'report') {
+            $hashes = $request->get('hashes');
+            $elapsed = $request->get('elapsed');
+            $rate = bcdiv($hashes, $elapsed, 6) * 1000;
+
+            WorkerReport::query()->updateOrInsert(['worker' => $worker->id], [
+                'date'    => Carbon::now(),
+                'hashes'  => $hashes,
+                'elapsed' => $elapsed,
+                'rate'    => $rate,
+            ]);
+
+            return $this->respondWithJson('ok');
+        }
+
+        if ($queryType === 'discovery') {
+            WorkerDiscovery::query()->updateOrInsert(['worker' => $worker->id], [
+                'date'       => Carbon::now(),
+                'nonce'      => $request->get('nonce'),
+                'argon'      => $request->get('argon'),
+                'difficulty' => (int)$request->get('difficulty'),
+                'dl'         => (int)$request->get('dl'),
+                'retries'    => (int)$request->get('retries'),
+                'confirmed'  => $request->get('confirmed') !== null,
+            ]);
+
+            return $this->respondWithJson('ok');
+        }
+
+        return $this->respondWithJson('invalid post', true);
     }
 
     /**
