@@ -37,17 +37,17 @@ class ReportController extends Controller
      */
     public function index(Request $request): array
     {
-        $queryType = $request->get('q');
-        $workerName = $request->query('id');
-        $type = $request->query('type');
+        $queryType = $request->input('q');
+        $workerName = $request->input('id');
+        $type = $request->input('type');
 
         if (!$worker = $this->getWorkerByDetails($workerName, $type)) {
             $this->respondWithJson('unregistered', true);
         }
 
         if ($queryType === 'report') {
-            $hashes = $request->get('hashes');
-            $elapsed = $request->get('elapsed');
+            $hashes = $request->input('hashes');
+            $elapsed = $request->input('elapsed');
             $rate = bcdiv($hashes, $elapsed, 6) * 1000;
 
             WorkerReport::query()->updateOrInsert(['worker' => $worker->id], [
@@ -63,12 +63,12 @@ class ReportController extends Controller
         if ($queryType === 'discovery') {
             WorkerDiscovery::query()->updateOrInsert(['worker' => $worker->id], [
                 'date'       => Carbon::now(),
-                'nonce'      => $request->get('nonce'),
-                'argon'      => $request->get('argon'),
-                'difficulty' => (int)$request->get('difficulty'),
-                'dl'         => (int)$request->get('dl'),
-                'retries'    => (int)$request->get('retries'),
-                'confirmed'  => $request->get('confirmed') !== null,
+                'nonce'      => $request->input('nonce'),
+                'argon'      => $request->input('argon'),
+                'difficulty' => (int)$request->input('difficulty'),
+                'dl'         => (int)$request->input('dl'),
+                'retries'    => (int)$request->input('retries'),
+                'confirmed'  => $request->input('confirmed') !== null,
             ]);
 
             return $this->respondWithJson('ok');
@@ -84,8 +84,8 @@ class ReportController extends Controller
      */
     public function errors(Request $request): array
     {
-        $workerName = $request->query('id');
-        $type = $request->query('type');
+        $workerName = $request->input('id');
+        $type = $request->input('type');
 
         if (!$this->getWorkerByDetails($workerName, $type)) {
             $this->respondWithJson('unregistered', true);
