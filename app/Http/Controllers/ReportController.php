@@ -6,7 +6,6 @@ use App\Worker;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use function json_encode;
 
 /**
  * Class ReportController
@@ -45,7 +44,7 @@ class ReportController extends Controller
             $this->respondWithJson('unregistered', true);
         }
 
-        Log::error(json_encode($request->all()));
+        Log::error(null, $request->all());
 
         return $this->respondWithJson('ok');
     }
