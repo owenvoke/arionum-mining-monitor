@@ -7,7 +7,7 @@
 [![Code Coverage][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-:package_description
+A mining monitor platform for the Arionum cryptocurrency.
 
 ## Install
 
