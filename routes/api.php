@@ -10,3 +10,6 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('report', 'ReportController@index');
+Route::get('report/errors', 'ReportController@errors');
