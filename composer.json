@@ -5,7 +5,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "ext-json": "^1.7",
+        "ext-bcmath": "*",
+        "ext-json": "*",
         "doctrine/dbal": "^2.8",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
