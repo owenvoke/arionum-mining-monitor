@@ -11,5 +11,5 @@
 |
 */
 
-Route::get('/report.php', 'ReportsController@index');
-Route::get('/reporterr.php', 'ReportsController@errors');
+Route::get('/report.php', 'ReportController@index');
+Route::get('/reporterr.php', 'ReportController@errors');
