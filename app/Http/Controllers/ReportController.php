@@ -27,13 +27,8 @@ class ReportController extends Controller
     public function errors(Request $request): array
     {
         $ipAddress = $request->getClientIp();
-        $token = $request->query('token');
         $workerName = $request->query('id');
         $type = $request->query('type');
-
-        if (config('arionum.report.token') !== $token) {
-            return $this->respondWithJson('unauthorized', true);
-        }
 
         if (!Worker::query()
             ->where('name', $workerName)
