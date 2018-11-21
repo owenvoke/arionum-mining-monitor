@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/report.php', 'ReportsController@index');
+Route::get('/reporterr.php', 'ReportsController@errors');
