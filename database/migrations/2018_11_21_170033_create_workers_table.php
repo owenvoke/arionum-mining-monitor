@@ -21,6 +21,8 @@ class CreateWorkersTable extends Migration
             $table->string('name');
             $table->ipAddress('ip');
             $table->date('date');
+
+            $table->index(['name', 'ip']);
         });
     }
 
