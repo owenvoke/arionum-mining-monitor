@@ -1,5 +1,9 @@
 <?php
 
 return [
-    'report_token' => env('ARO_REPORT_TOKEN'),
+
+    'token' => env('ARO_REPORT_TOKEN'),
+
+    'coin' => env('ARO_REPORT_COIN', 'arionum'),
+
 ];
