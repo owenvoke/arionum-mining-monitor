@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $nonce
  * @property string $argon
  * @property int    $retries
- * @property int    $confirmed
+ * @property bool   $confirmed
  */
 class WorkerDiscovery extends Model
 {

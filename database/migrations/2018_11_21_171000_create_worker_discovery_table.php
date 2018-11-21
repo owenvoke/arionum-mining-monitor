@@ -24,7 +24,7 @@ class CreateWorkerDiscoveryTable extends Migration
             $table->string('nonce');
             $table->string('argon');
             $table->tinyInteger('retries');
-            $table->tinyInteger('confirmed');
+            $table->boolean('confirmed');
 
             $table->foreign('worker')->references('id')->on('workers');
         });
