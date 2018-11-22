@@ -34,6 +34,9 @@ class CreateWorkerReportTable extends Migration
      */
     public function down()
     {
+        Schema::table('worker_report', function (Blueprint $table) {
+            $table->dropForeign(['worker']);
+        });
         Schema::dropIfExists('worker_report');
     }
 }
