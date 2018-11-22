@@ -14,7 +14,7 @@ class CreateWorkersTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('workers', function (Blueprint $table) {
             $table->increments('id');
@@ -31,7 +31,7 @@ class CreateWorkersTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('workers');
     }

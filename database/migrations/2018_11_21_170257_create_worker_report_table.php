@@ -14,7 +14,7 @@ class CreateWorkerReportTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('worker_report', function (Blueprint $table) {
             $table->unsignedInteger('worker');
@@ -32,7 +32,7 @@ class CreateWorkerReportTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('worker_report', function (Blueprint $table) {
             $table->dropForeign(['worker']);
