@@ -113,8 +113,9 @@ class ReportController extends Controller
     }
 
     /**
-     * @param string  $workerName
-     * @param  string $type
+     * @param string $workerName
+     * @param string $type
+     * @param User   $user
      * @return Builder|Model|Worker
      */
     private function getWorkerByDetails(string $workerName, string $type, User $user)
