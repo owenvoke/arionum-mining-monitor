@@ -13,3 +13,5 @@
 
 Route::get('report.php', 'ReportController@index');
 Route::get('reporterr.php', 'ReportController@errors');
+
+Auth::routes();
