@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\InvalidReportTokenException;
+use App\User;
 use Closure;
 
 class VerifyReportToken
@@ -17,7 +18,7 @@ class VerifyReportToken
      */
     public function handle($request, Closure $next)
     {
-        if ($request->get('token')) {
+        if (!User::query()->where('report_token', $request->input('token'))->first()) {
             throw new InvalidReportTokenException('unauthorized');
         }
 

@@ -19,12 +19,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class WorkerDiscovery extends Model
 {
-    /** @var string */
-    protected $table = 'worker_discovery';
-
     /** @var bool */
     public $timestamps = false;
-
+    /** @var string */
+    protected $table = 'worker_discovery';
     /** @var array */
     protected $dates = [
         'date',

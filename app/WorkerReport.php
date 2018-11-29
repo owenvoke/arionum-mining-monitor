@@ -16,12 +16,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class WorkerReport extends Model
 {
-    /** @var string */
-    protected $table = 'worker_report';
-
     /** @var bool */
     public $timestamps = false;
-
+    /** @var string */
+    protected $table = 'worker_report';
     /** @var array */
     protected $dates = [
         'date',

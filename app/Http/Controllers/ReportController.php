@@ -122,6 +122,11 @@ class ReportController extends Controller
             ->where('name', $workerName)
             ->where('ip', $this->requestIp)
             ->where('type', $type)
-            ->firstOrCreate(['name' => $workerName, 'date' => Carbon::now(), 'type' => $type, 'ip' => $ipAddress]);
+            ->firstOrCreate([
+                'name' => $workerName,
+                'date' => Carbon::now(),
+                'type' => $type,
+                'ip'   => $this->requestIp,
+            ]);
     }
 }
