@@ -2,12 +2,10 @@
 
 namespace App\Exceptions;
 
-use App\Exceptions\Api\InvalidReportTokenException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -21,8 +19,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception): Response
     {
-        if ($exception instanceof InvalidReportTokenException || $exception instanceof MiningMonitorException) {
-            Log::error($exception->getMessage());
+        if ($exception instanceof MiningMonitorException) {
             return $this->returnJsonExceptionResponse($exception);
         }
 

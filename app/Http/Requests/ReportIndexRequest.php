@@ -41,10 +41,10 @@ class ReportIndexRequest extends FormRequest
     }
 
     /**
-     * @throws InvalidReportTokenException
+     * @throws MiningMonitorException
      */
     protected function failedAuthorization(): void
     {
-        throw new InvalidReportTokenException('unauthorized');
+        throw new MiningMonitorException('unauthorized');
     }
 }
