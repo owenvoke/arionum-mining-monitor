@@ -17,7 +17,7 @@ class VerifyReportToken
      */
     public function handle($request, Closure $next)
     {
-        if ($request->get('token') !== config('arionum.report.token')) {
+        if ($request->get('token')) {
             throw new InvalidReportTokenException('unauthorized');
         }
 
