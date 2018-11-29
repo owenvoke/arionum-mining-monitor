@@ -36,7 +36,7 @@ class ReportRequest extends FormRequest
     {
         return [
             'id' => 'string|required',
-            'q' => 'string|optional|in:report,discovery',
+            'q' => 'string|sometimes|required|in:report,discovery',
             'type' => 'string|required',
         ];
     }
