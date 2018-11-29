@@ -17,7 +17,7 @@ class Handler extends ExceptionHandler
      *
      * @return Response
      */
-    public function render($request, Exception $exception): Response
+    public function render($request, Exception $exception)
     {
         if ($exception instanceof MiningMonitorException) {
             return $this->returnJsonExceptionResponse($exception);
