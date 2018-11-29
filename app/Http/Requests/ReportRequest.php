@@ -4,12 +4,13 @@ namespace App\Http\Requests;
 
 use App\Exceptions\MiningMonitorException;
 use App\User;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class ReportIndexRequest
+ * Class ReportRequest
  */
-class ReportIndexRequest extends FormRequest
+class ReportRequest extends FormRequest
 {
     /** @var User|null */
     public $user;
@@ -35,9 +36,18 @@ class ReportIndexRequest extends FormRequest
     {
         return [
             'id' => 'string|required',
-            'q' => 'string|required|in:report,discovery',
+            'q' => 'string|optional|in:report,discovery',
             'type' => 'string|required',
         ];
+    }
+
+    /**
+     * @param Validator $validator
+     * @throws MiningMonitorException
+     */
+    protected function failedValidation(Validator $validator): void
+    {
+        throw new MiningMonitorException('invalid post');
     }
 
     /**

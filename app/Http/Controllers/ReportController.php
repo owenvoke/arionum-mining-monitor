@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\MiningMonitorException;
-use App\Http\Requests\ReportIndexRequest;
+use App\Http\Requests\ReportRequest;
 use App\User;
 use App\Worker;
 use App\WorkerDiscovery;
@@ -33,11 +33,11 @@ class ReportController extends Controller
 
     /**
      * Report index route
-     * @param ReportIndexRequest $request
+     * @param ReportRequest $request
      * @return array
      * @throws MiningMonitorException
      */
-    public function index(ReportIndexRequest $request): array
+    public function index(ReportRequest $request): array
     {
         $workerName = $request->input('id');
         $type = $request->input('type');
@@ -80,16 +80,16 @@ class ReportController extends Controller
 
     /**
      * Report errors route
-     * @param Request $request
+     * @param ReportRequest $request
      * @return array
      * @throws MiningMonitorException
      */
-    public function errors(Request $request): array
+    public function errors(ReportRequest $request): array
     {
         $workerName = $request->input('id');
         $type = $request->input('type');
 
-        if (!$this->getWorkerByDetails($workerName, $type)) {
+        if (!$this->getWorkerByDetails($workerName, $type, $request->user)) {
             throw new MiningMonitorException('unregistered');
         }
 
