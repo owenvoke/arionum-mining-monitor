@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Exceptions\Api\InvalidReportTokenException;
+use App\Exceptions\MiningMonitorException;
 use App\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class ReportIndexRequest
