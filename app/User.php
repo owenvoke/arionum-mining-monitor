@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
  * Class User
  *
  * @property int         $id
- * @property string      $name
+ * @property string      $username
  * @property string      $email
  * @property Carbon|null $email_verified_at
  * @property string      $password
@@ -25,7 +25,7 @@ class User extends Authenticatable
 
     /** @var array */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
         'report_token',
