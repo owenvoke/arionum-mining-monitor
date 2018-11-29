@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\VerifyReportToken;
+use App\Exceptions\MiningMonitorException;
+use App\Http\Requests\ReportIndexRequest;
 use App\Worker;
 use App\WorkerDiscovery;
 use App\WorkerReport;
@@ -26,61 +27,61 @@ class ReportController extends Controller
      */
     public function __construct(Request $request)
     {
-        $this->middleware(VerifyReportToken::class);
         $this->requestIp = $request->getClientIp();
     }
 
     /**
      * Report index route
-     * @param Request $request
+     * @param ReportIndexRequest $request
      * @return array
+     * @throws MiningMonitorException
      */
-    public function index(Request $request): array
+    public function index(ReportIndexRequest $request): array
     {
-        $queryType = $request->input('q');
         $workerName = $request->input('id');
         $type = $request->input('type');
 
         if (!$worker = $this->getWorkerByDetails($workerName, $type)) {
-            $this->respondWithJson('unregistered', true);
+            throw new MiningMonitorException('unregistered');
         }
 
-        if ($queryType === 'report') {
+        if ($request->input('q') === 'report') {
             $hashes = $request->input('hashes');
             $elapsed = $request->input('elapsed');
             $rate = bcdiv($hashes, $elapsed, 6) * 1000;
 
             WorkerReport::query()->updateOrInsert(['worker' => $worker->id], [
-                'date'    => Carbon::now(),
-                'hashes'  => $hashes,
+                'date' => Carbon::now(),
+                'hashes' => $hashes,
                 'elapsed' => $elapsed,
-                'rate'    => $rate,
+                'rate' => $rate,
             ]);
 
             return $this->respondWithJson('ok');
         }
 
-        if ($queryType === 'discovery') {
+        if ($request->input('q') === 'discovery') {
             WorkerDiscovery::query()->updateOrInsert(['worker' => $worker->id], [
-                'date'       => Carbon::now(),
-                'nonce'      => $request->input('nonce'),
-                'argon'      => $request->input('argon'),
+                'date' => Carbon::now(),
+                'nonce' => $request->input('nonce'),
+                'argon' => $request->input('argon'),
                 'difficulty' => (int)$request->input('difficulty'),
-                'dl'         => (int)$request->input('dl'),
-                'retries'    => (int)$request->input('retries'),
-                'confirmed'  => $request->input('confirmed') !== null,
+                'dl' => (int)$request->input('dl'),
+                'retries' => (int)$request->input('retries'),
+                'confirmed' => $request->input('confirmed') !== null,
             ]);
 
             return $this->respondWithJson('ok');
         }
 
-        return $this->respondWithJson('invalid post', true);
+        throw new MiningMonitorException('invalid post');
     }
 
     /**
      * Report errors route
      * @param Request $request
      * @return array
+     * @throws MiningMonitorException
      */
     public function errors(Request $request): array
     {
@@ -88,7 +89,7 @@ class ReportController extends Controller
         $type = $request->input('type');
 
         if (!$this->getWorkerByDetails($workerName, $type)) {
-            $this->respondWithJson('unregistered', true);
+            throw new MiningMonitorException('unregistered');
         }
 
         Log::error(null, $request->all());
@@ -98,16 +99,15 @@ class ReportController extends Controller
 
     /**
      * Generate a JSON response array.
-     * @param mixed     $data
-     * @param bool|null $isError
+     * @param mixed $data
      * @return array
      */
-    private function respondWithJson($data, ?bool $isError = null): array
+    private function respondWithJson($data): array
     {
         return [
-            'coin'   => config('arionum.report.coin'),
-            'data'   => $data,
-            'status' => $isError ? 'error' : 'ok',
+            'coin' => config('arionum.report.coin'),
+            'data' => $data,
+            'status' => 'ok',
         ];
     }
 
@@ -126,7 +126,7 @@ class ReportController extends Controller
                 'name' => $workerName,
                 'date' => Carbon::now(),
                 'type' => $type,
-                'ip'   => $this->requestIp,
+                'ip' => $this->requestIp,
             ]);
     }
 }
