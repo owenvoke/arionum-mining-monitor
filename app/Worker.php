@@ -23,4 +23,12 @@ class Worker extends Model
     protected $dates = [
         'date',
     ];
+
+    /** @var array */
+    protected $fillable = [
+        'name',
+        'ip',
+        'date',
+        'type',
+    ];
 }

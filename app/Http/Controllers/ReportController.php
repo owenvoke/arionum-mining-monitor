@@ -112,11 +112,11 @@ class ReportController extends Controller
     }
 
     /**
-     * @param             $workerName
-     * @param             $type
+     * @param string  $workerName
+     * @param  string $type
      * @return Builder|Model|Worker
      */
-    private function getWorkerByDetails($workerName, $type)
+    private function getWorkerByDetails(string $workerName, string $type)
     {
         return Worker::query()
             ->where('name', $workerName)
