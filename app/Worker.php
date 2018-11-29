@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class Worker
  *
  * @property int    $id
+ * @property int    $user_id
  * @property string $name
  * @property string $ip
  * @property Carbon $date
@@ -26,6 +27,7 @@ class Worker extends Model
 
     /** @var array */
     protected $fillable = [
+        'user_id',
         'name',
         'ip',
         'date',
