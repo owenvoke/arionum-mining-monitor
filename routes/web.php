@@ -11,7 +11,10 @@
 |
 */
 
-Route::get('report.php', 'ReportController@index');
-Route::get('reporterr.php', 'ReportController@errors');
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+Route::match(['get', 'post'], 'report.php', 'ReportController@index');
+Route::match(['get', 'post'], 'reporterr.php', 'ReportController@errors');
 
 Auth::routes();

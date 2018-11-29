@@ -11,5 +11,5 @@
 |
 */
 
-Route::get('report', 'ReportController@index');
-Route::get('report/errors', 'ReportController@errors');
+Route::match(['get', 'post'], 'report', 'ReportController@index');
+Route::match(['get', 'post'], 'report/errors', 'ReportController@errors');
