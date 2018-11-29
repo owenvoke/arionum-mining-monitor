@@ -2,52 +2,46 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Api\InvalidReportTokenException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
     /**
-     * A list of the exception types that are not reported.
+     * Render an exception into an HTTP response.
      *
-     * @var array
+     * @param Request   $request
+     * @param Exception $exception
+     *
+     * @return Response
      */
-    protected $dontReport = [
-        //
-    ];
-
-    /**
-     * A list of the inputs that are never flashed for validation exceptions.
-     *
-     * @var array
-     */
-    protected $dontFlash = [
-        'password',
-        'password_confirmation',
-    ];
-
-    /**
-     * Report or log an exception.
-     *
-     * @param \Exception $exception
-     *
-     * @return void
-     */
-    public function report(Exception $exception)
+    public function render($request, Exception $exception): Response
     {
-        parent::report($exception);
+        if ($exception instanceof InvalidReportTokenException || $exception instanceof MiningMonitorException) {
+            Log::error($exception->getMessage());
+            return $this->returnJsonExceptionResponse($exception);
+        }
+
+        return parent::render($request, $exception);
     }
 
     /**
-     * Render an exception into an HTTP response.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \Exception               $exception
-     *
-     * @return \Illuminate\Http\Response
+     * @param Exception $exception
+     * @param int|null  $statusCode
+     * @return Response
      */
-    public function render($request, Exception $exception)
+    private function returnJsonExceptionResponse(Exception $exception, ?int $statusCode = 400): Response
     {
-        return parent::render($request, $exception);
+        $statusCode = $statusCode ?? 500;
+
+        return Response::create([
+            'coin' => config('arionum.report.coin'),
+            'data' => $exception->getMessage(),
+            'status' => 'error',
+        ])->setStatusCode($statusCode);
     }
 }
