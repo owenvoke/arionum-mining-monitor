@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\MiningMonitorException;
 use App\Http\Requests\ReportIndexRequest;
+use App\User;
 use App\Worker;
 use App\WorkerDiscovery;
 use App\WorkerReport;
@@ -41,7 +42,7 @@ class ReportController extends Controller
         $workerName = $request->input('id');
         $type = $request->input('type');
 
-        if (!$worker = $this->getWorkerByDetails($workerName, $type)) {
+        if (!$worker = $this->getWorkerByDetails($workerName, $type, $request->user)) {
             throw new MiningMonitorException('unregistered');
         }
 
@@ -116,13 +117,15 @@ class ReportController extends Controller
      * @param  string $type
      * @return Builder|Model|Worker
      */
-    private function getWorkerByDetails(string $workerName, string $type)
+    private function getWorkerByDetails(string $workerName, string $type, User $user)
     {
         return Worker::query()
+            ->where('user_id', $user->id)
             ->where('name', $workerName)
             ->where('ip', $this->requestIp)
             ->where('type', $type)
             ->firstOrCreate([
+                'user_id' => $user->id,
                 'name' => $workerName,
                 'date' => Carbon::now(),
                 'type' => $type,
