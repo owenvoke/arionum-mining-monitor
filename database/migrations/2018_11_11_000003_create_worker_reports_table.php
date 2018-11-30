@@ -5,9 +5,9 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateWorkerReportTable
+ * Class CreateWorkerReportsTable
  */
-class CreateWorkerReportTable extends Migration
+class CreateWorkerReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,14 +16,15 @@ class CreateWorkerReportTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('worker_report', function (Blueprint $table) {
-            $table->unsignedInteger('worker');
-            $table->date('date');
+        Schema::create('worker_reports', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('worker_id');
             $table->integer('hashes');
             $table->integer('elapsed');
             $table->decimal('rate', 20, 3);
+            $table->timestamps();
 
-            $table->foreign('worker')->references('id')->on('workers');
+            $table->foreign('worker_id')->references('id')->on('workers');
         });
     }
 
@@ -34,9 +35,9 @@ class CreateWorkerReportTable extends Migration
      */
     public function down(): void
     {
-        Schema::table('worker_report', function (Blueprint $table) {
-            $table->dropForeign(['worker']);
+        Schema::table('worker_reports', function (Blueprint $table) {
+            $table->dropForeign(['worker_id']);
         });
-        Schema::dropIfExists('worker_report');
+        Schema::dropIfExists('worker_reports');
     }
 }

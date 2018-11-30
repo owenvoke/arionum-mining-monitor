@@ -21,7 +21,8 @@ class CreateWorkersTable extends Migration
             $table->unsignedInteger('user_id');
             $table->string('name');
             $table->ipAddress('ip');
-            $table->date('date');
+            $table->string('type')->default('cpu');
+            $table->timestamps();
 
             $table->index(['name', 'ip']);
         });
