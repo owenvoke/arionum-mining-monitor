@@ -15,9 +15,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class ReportController
+ * Class ReportsController
  */
-class ReportController extends Controller
+class ReportsController extends Controller
 {
     /** @var string|null */
     private $requestIp;
