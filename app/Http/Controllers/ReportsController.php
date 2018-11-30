@@ -8,7 +8,6 @@ use App\User;
 use App\Worker;
 use App\WorkerDiscovery;
 use App\WorkerReport;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -51,7 +50,8 @@ class ReportsController extends Controller
             $elapsed = $request->input('elapsed');
             $rate = bcdiv($hashes, $elapsed, 6) * 1000;
 
-            WorkerReport::query()->updateOrInsert(['worker' => $worker->id], [
+            WorkerReport::query()->insert([
+                'worker_id' => $worker->id,
                 'hashes' => $hashes,
                 'elapsed' => $elapsed,
                 'rate' => $rate,
@@ -61,7 +61,8 @@ class ReportsController extends Controller
         }
 
         if ($request->input('q') === 'discovery') {
-            WorkerDiscovery::query()->updateOrInsert(['worker' => $worker->id], [
+            WorkerDiscovery::query()->insert([
+                'worker_id' => $worker->id,
                 'nonce' => $request->input('nonce'),
                 'argon' => $request->input('argon'),
                 'difficulty' => (int)$request->input('difficulty'),
