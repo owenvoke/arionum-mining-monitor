@@ -52,7 +52,6 @@ class ReportsController extends Controller
             $rate = bcdiv($hashes, $elapsed, 6) * 1000;
 
             WorkerReport::query()->updateOrInsert(['worker' => $worker->id], [
-                'date' => Carbon::now(),
                 'hashes' => $hashes,
                 'elapsed' => $elapsed,
                 'rate' => $rate,
@@ -63,7 +62,6 @@ class ReportsController extends Controller
 
         if ($request->input('q') === 'discovery') {
             WorkerDiscovery::query()->updateOrInsert(['worker' => $worker->id], [
-                'date' => Carbon::now(),
                 'nonce' => $request->input('nonce'),
                 'argon' => $request->input('argon'),
                 'difficulty' => (int)$request->input('difficulty'),
