@@ -21,6 +21,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class WorkerReport extends Model
 {
+    /** @var array */
+    protected $casts = [
+        'worker_id' => 'int',
+        'hashes' => 'int',
+        'elapsed' => 'int',
+        'rate' => 'float',
+    ];
+
     /**
      * @return BelongsTo|null
      */

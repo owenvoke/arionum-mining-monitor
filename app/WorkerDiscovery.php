@@ -24,6 +24,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class WorkerDiscovery extends Model
 {
+    /** @var array */
+    protected $casts = [
+        'worker_id' => 'int',
+        'difficulty' => 'int',
+        'dl' => 'int',
+        'retries' => 'float',
+        'confirm' => 'bool',
+    ];
+
     /**
      * @return BelongsTo|null
      */
