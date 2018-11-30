@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class WorkerDiscovery
@@ -18,7 +19,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool        $confirmed
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ *
+ * @property Worker|null $worker
  */
 class WorkerDiscovery extends Model
 {
+    /**
+     * @return BelongsTo|null
+     */
+    public function worker(): ?BelongsTo
+    {
+        return $this->belongsTo(Worker::class);
+    }
 }
