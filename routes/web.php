@@ -14,7 +14,9 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::match(['get', 'post'], 'report.php', 'ReportsController@index');
-Route::match(['get', 'post'], 'reporterr.php', 'ReportsController@errors');
+Route::get('reports', 'ReportsController@index');
+
+Route::match(['get', 'post'], 'report.php', 'Api\ReportsController@index');
+Route::match(['get', 'post'], 'reporterr.php', 'Api\ReportsController@errors');
 
 Auth::routes();
