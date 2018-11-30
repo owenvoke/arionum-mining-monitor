@@ -128,7 +128,6 @@ class ReportController extends Controller
             ->firstOrCreate([
                 'user_id' => $user->id,
                 'name' => $workerName,
-                'date' => Carbon::now(),
                 'type' => $type,
                 'ip' => $this->requestIp,
             ]);
